@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ReconScope — public domain records, with explicit control over every lookup.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="x-dns-prefetch-control" content="off">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src https://dns.google https://crt.sh; img-src data:; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+  <title>ReconScope — Domain research</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <aside class="sidebar">
+    <a class="brand" href="./" aria-label="ReconScope home"><span class="brand-mark" aria-hidden="true">r/</span>reconscope<span class="brand-dot">.</span></a>
+    <span class="sidebar-caption">RESEARCH CONSOLE</span>
+    <nav aria-label="Workspace sections">
+      <a href="#main" class="nav-primary"><span class="nav-symbol" aria-hidden="true">⊞</span> Workspace <span class="nav-key" aria-hidden="true">01</span></a>
+      <a href="#sources"><span class="nav-symbol" aria-hidden="true">↗</span> Public sources</a>
+      <a href="#how-to"><span class="nav-symbol" aria-hidden="true">≡</span> Field guide</a>
+    </nav>
+    <div class="sidebar-bottom"><span class="sidebar-caption">COLLECTION METHOD</span><p>Public records first.<br>Every lookup is a choice.</p><span class="education-tag">Educational use</span></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar"><span><span class="muted">Research</span><span class="breadcrumb-slash">/</span>Domain workspace</span><a href="#how-to" class="guide-link">Quick guide ↗</a></header>
+    <main id="main" class="container">
+      <div class="page-heading"><div><p class="eyebrow">RECONNAISSANCE / PUBLIC DATA</p><h1>Domain research</h1><p class="page-description">A clear view of the records. Control over the requests.</p></div><span class="mode-label"><span aria-hidden="true"></span>Local by default</span></div>
+      <div class="workbench">
+        <section class="panel target-panel" aria-labelledby="target-heading">
+          <div class="panel-title"><h2 id="target-heading">Set your target</h2><span class="panel-index">01</span></div>
+          <form id="recon-form" novalidate>
+            <label for="domain">Domain name</label>
+            <div class="input-wrap"><span aria-hidden="true">↳</span><input id="domain" name="domain" type="text" placeholder="example.com" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="input-hint status" required></div>
+            <p id="input-hint" class="input-hint">Use a domain you own or are authorized to research.</p>
+            <button id="run-button" class="primary" type="submit">Prepare research</button>
+            <label class="check-label"><input id="auto-certificates" type="checkbox" autocomplete="off">Load existing certificates on this run (contacts crt.sh)</label><p class="local-note"><span aria-hidden="true">○</span> Preparation happens on this device.</p>
+            <details class="dns-options"><summary>Optional live DNS lookup <span aria-hidden="true">+</span></summary><p id="dns-notice">Google receives your IP and domain. Uncached queries may reach the domain’s authoritative DNS servers and be logged there.</p><label class="check-label"><input id="allow-dns" type="checkbox" autocomplete="off" aria-describedby="dns-notice">Allow live DNS for this run</label><span class="record-types">A / AAAA / MX / NS / TXT / CNAME</span></details>
+          </form>
+          <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true">Enter a domain to prepare your workspace.</p>
+        </section>
+        <div class="evidence-area">
+          <section id="empty-state" class="panel empty-state" aria-label="Waiting for a domain">
+            <div class="panel-title"><h2>Evidence workspace</h2><span class="panel-index">02</span></div>
+            <div class="empty-content"><span class="empty-brackets" aria-hidden="true">[ &nbsp; ]</span><h3>No target selected</h3><p>Prepare a workspace to explore existing<br>certificate and registration records.</p></div>
+            <div class="empty-footer"><span>No automatic lookups</span><span class="muted">No target page requests</span></div>
+          </section>
+          <section id="public-workspace" class="panel public-workspace" aria-labelledby="public-heading" hidden>
+            <div class="panel-title"><h2 id="public-heading">Evidence workspace</h2><span class="panel-index">02</span></div>
+            <div class="workspace-body"><p id="public-target" class="workspace-target"></p><div class="source-heading"><span class="source-square" aria-hidden="true">CT</span><div><h3>Certificate history</h3><span class="source-subtitle">Existing records · crt.sh</span></div></div>
+            <p class="explanation">Read previously logged certificates. This sends your domain and connection information to crt.sh; it does not request a new scan or load the target website from this app.</p>
+            <button id="load-certificates" class="secondary" type="button">Load existing certificates from crt.sh</button>
+            <p class="provider-note">The provider controls its own logging and backend behavior.</p>
+            <p id="certificate-status" class="status" role="status" aria-live="polite">No provider contacted for this workspace.</p><div id="certificate-results" class="certificate-results"></div></div>
+          </section>
+        </div>
+      </div>
+      <section id="results" aria-labelledby="results-heading" hidden>
+        <div class="section-heading"><div><p class="eyebrow">LIVE DNS / GOOGLE PUBLIC DNS</p><h2 id="results-heading">DNS overview</h2></div><button id="copy-button" class="secondary" type="button">Copy Report</button></div>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        <div class="summary-grid"><div class="panel summary"><span>Target</span><strong id="target-value" class="target-value"></strong></div><div class="panel summary"><span>DNS records found</span><strong id="count-value"></strong></div><div class="panel summary"><span>Lookup time</span><strong id="time-value"></strong></div></div>
+        <div id="record-grid" class="record-grid"></div><p class="results-note">TTL is shown in seconds. Results reflect the resolver’s current answers; authoritative DNS queries may have occurred.</p>
+      </section>
+      <section id="sources" class="sources-section" aria-labelledby="sources-heading">
+        <div class="section-heading"><div><p class="eyebrow">CONTINUE YOUR RESEARCH</p><h2 id="sources-heading">Public sources</h2></div><span class="section-meta">Opens with the provider ↗</span></div>
+        <div class="research-links"><a id="icann-link" class="research-link" href="https://lookup.icann.org/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="source-square" aria-hidden="true">RD</span><span><strong>ICANN Lookup</strong><small>Registration data, registrar & domain status</small></span><span class="link-arrow" aria-hidden="true">↗</span></a><a id="certificate-link" class="research-link" href="https://crt.sh/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="source-square" aria-hidden="true">CT</span><span><strong>Certificate Search</strong><small>Logged certificates & historical names</small></span><span class="link-arrow" aria-hidden="true">↗</span></a><a id="urlscan-link" class="research-link" href="https://urlscan.io/search/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="source-square" aria-hidden="true">US</span><span><strong>urlscan history</strong><small>Existing public scans · do not submit a new scan</small></span><span class="link-arrow" aria-hidden="true">↗</span></a><a id="virustotal-link" class="research-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="source-square" aria-hidden="true">VT</span><span><strong>VirusTotal report</strong><small>Existing domain reputation · account or limits may apply</small></span><span class="link-arrow" aria-hidden="true">↗</span></a><a id="archive-link" class="research-link" href="https://web.archive.org/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="source-square" aria-hidden="true">WB</span><span><strong>Wayback history</strong><small>Archived pages · replay may load live resources</small></span><span class="link-arrow" aria-hidden="true">↗</span></a></div>
+        <p id="research-hint" class="small-note">Prepare a workspace to fill in all five research links. Opening a link contacts that provider.</p>
+      </section>
+      <div class="bottom-grid">
+        <section id="how-to" class="instructions" aria-labelledby="how-heading"><p class="eyebrow">FIELD GUIDE</p><h2 id="how-heading">From domain to evidence</h2><ol><li>Enter an authorized domain and select <strong>Prepare research</strong>.</li><li>Research links fill automatically. Certificate loading runs only when selected.</li><li>Use live DNS only when you accept its visibility limits.</li><li>Review the DNS results and use <strong>Copy Report</strong> for your notes.</li></ol></section>
+        <section class="visibility-note" aria-labelledby="visibility-heading"><span class="note-label">A NOTE ON VISIBILITY</span><h2 id="visibility-heading">Public doesn’t mean anonymous.</h2><p>ReconScope sends no target notification. Providers may log searches, and live DNS may reach authoritative servers. Activity after opening an external link is outside this app’s control.</p><span>No scans. No automatic target previews.</span></section>
+      </div>
+    </main>
+    <footer class="container"><span>reconscope.</span><p>For coursework, learning, and authorized security research.</p><span class="footer-label">PUBLIC RECORDS / EXPLICIT REQUESTS</span></footer>
+  </div>
+</body>
+</html>
